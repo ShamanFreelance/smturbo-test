@@ -16,12 +16,13 @@ const Pagination = (props: TProps) => {
 
   const [current, setCurrent] = useState(page);
 
-  const countPages = Math.min(pageCount - startPagination + 1, 10);
-  const pTemp = Array.from(Array(countPages).keys());
+  const countPagesPagination = Math.min(pageCount - startPagination + 1, 10);
+  const pTemp = Array.from(Array(countPagesPagination).keys());
   const pages = pTemp.map((item) => item + startPagination);
   const router = useRouter();
 
   useEffect(() => {
+    if (current > pageCount) setCurrent(pageCount);
     router.push(`?page=${current}`);
   }, [current]);
 
