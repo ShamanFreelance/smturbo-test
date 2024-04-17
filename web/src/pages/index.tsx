@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Table from "react-bootstrap/Table";
 import { Alert, Container } from "react-bootstrap";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Pagination from "@/components/pagination";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,11 @@ type TPageMeta = {
   take: number;
   itemCount: number;
   pageCount: number;
+  startPagination: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
+  hasPreviousTensPages: boolean;
+  hasNextTensPages: boolean;
 };
 
 type TPage = {
@@ -44,14 +48,23 @@ export const getServerSideProps = (async (ctx: GetServerSidePropsContext): Promi
           statusCode: res.status,
           page: {
             users: [],
-            meta: { page: 0, take: 0, itemCount: 0, pageCount: 0, hasPreviousPage: false, hasNextPage: false },
+            meta: {
+              page: 0,
+              take: 0,
+              itemCount: 0,
+              pageCount: 0,
+              startPagination: 0,
+              hasPreviousPage: false,
+              hasNextPage: false,
+              hasPreviousTensPages: false,
+              hasNextTensPages: false,
+            },
           },
         },
       };
     }
 
     const payload = await res.json();
-    console.log(payload);
     return {
       props: {
         statusCode: 200,
@@ -67,7 +80,17 @@ export const getServerSideProps = (async (ctx: GetServerSidePropsContext): Promi
         statusCode: 500,
         page: {
           users: [],
-          meta: { page: 0, take: 0, itemCount: 0, pageCount: 0, hasPreviousPage: false, hasNextPage: false },
+          meta: {
+            page: 0,
+            take: 0,
+            itemCount: 0,
+            pageCount: 0,
+            startPagination: 0,
+            hasPreviousPage: false,
+            hasNextPage: false,
+            hasPreviousTensPages: false,
+            hasNextTensPages: false,
+          },
         },
       },
     };
@@ -118,6 +141,15 @@ export default function Home({ statusCode, page: { users, meta } }: TGetServerSi
           </Table>
 
           {/*TODO add pagination*/}
+          <Pagination
+            page={meta.page}
+            pageCount={meta.pageCount}
+            startPagination={meta.startPagination}
+            hasNextTensPages={meta.hasNextTensPages}
+            hasPreviousTensPages={meta.hasPreviousTensPages}
+            hasPreviousPage={meta.hasPreviousPage}
+            hasNextPage={meta.hasNextPage}
+          />
         </Container>
       </main>
     </>
