@@ -1,4 +1,3 @@
-import { getPageStaticInfo } from "next/dist/build/analysis/get-page-static-info";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
