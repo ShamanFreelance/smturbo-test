@@ -17,7 +17,7 @@ export class PageMetaDto {
     this.take = pageOptionsDto.take;
     this.itemCount = itemCount;
     this.pageCount = Math.ceil(this.itemCount / this.take);
-    this.startPagination = integerDivision(this.page, 10) * 10 + 1;
+    this.startPagination = integerDivision(this.page - 1, 10) * 10 + 1;
     this.hasPreviousTensPages = this.startPagination - 10 > 0;
     this.hasNextTensPages = this.startPagination + 10 < this.pageCount;
     this.hasPreviousPage = this.page > 1;
